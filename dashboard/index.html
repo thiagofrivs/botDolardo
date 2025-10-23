@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bot de Cotización del Dólar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-dollar-sign"></i> Dashboard Dólar Bot</h1>
+                <div class="header-info">
+                    <span id="connection-status" class="status-indicator">
+                        <i class="fas fa-circle"></i> Conectando...
+                    </span>
+                    <span id="last-update" class="last-update">Última actualización: --</span>
+                </div>
+            </div>
+            <div class="global-controls">
+                <div class="bot-status">
+                    <span id="bot-global-status" class="bot-status-indicator">
+                        <i class="fas fa-circle"></i> Bot: Activo
+                    </span>
+                </div>
+                <div class="global-buttons">
+                    <button id="pause-bot" class="btn btn-danger">
+                        <i class="fas fa-pause"></i> Pausar Bot
+                    </button>
+                    <button id="resume-bot" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-play"></i> Reanudar Bot
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Cotización Actual -->
+            <section class="card cotizacion-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-line"></i> Cotización Actual</h2>
+                    <button id="refresh-cotizacion" class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                <div class="card-content">
+                    <div id="cotizacion-loading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando cotización...
+                    </div>
+                    <div id="cotizacion-content" class="cotizacion-content" style="display: none;">
+                        <div class="cotizacion-values">
+                            <div class="cotizacion-item">
+                                <span class="label">Compra</span>
+                                <span id="compra-actual" class="value compra">--</span>
+                                <span id="variacion-compra" class="variacion">--</span>
+                            </div>
+                            <div class="cotizacion-item">
+                                <span class="label">Venta</span>
+                                <span id="venta-actual" class="value venta">--</span>
+                                <span id="variacion-venta" class="variacion">--</span>
+                            </div>
+                        </div>
+                        <div id="cotizacion-timestamp" class="timestamp">--</div>
+                    </div>
+                    <div id="cotizacion-error" class="error-message" style="display: none;">
+                        Error cargando cotización
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usuarios -->
+            <section class="card usuarios-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-users"></i> Usuarios Registrados</h2>
+                    <div class="usuarios-stats">
+                        <span id="total-usuarios" class="stat">Total: 0</span>
+                        <span id="usuarios-activos" class="stat active">Activos: 0</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="usuarios-loading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando usuarios...
+                    </div>
+                    <div id="usuarios-content" class="usuarios-content" style="display: none;">
+                        <div id="usuarios-list" class="usuarios-list"></div>
+                    </div>
+                    <div id="usuarios-error" class="error-message" style="display: none;">
+                        Error cargando usuarios
+                    </div>
+                </div>
+            </section>
+
+            <!-- Consola de Logs -->
+            <section class="card consola-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-terminal"></i> Consola de Logs</h2>
+                    <div class="consola-controls">
+                        <select id="log-level-filter">
+                            <option value="">Todos los niveles</option>
+                            <option value="INFO">INFO</option>
+                            <option value="WARNING">WARNING</option>
+                            <option value="ERROR">ERROR</option>
+                        </select>
+                        <button id="clear-logs" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="consola-loading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando logs...
+                    </div>
+                    <div id="consola-content" class="consola-content" style="display: none;">
+                        <div id="logs-container" class="logs-container"></div>
+                    </div>
+                    <div id="consola-error" class="error-message" style="display: none;">
+                        Error cargando logs
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 DolarBotardo - Dashboard de Cotización del Dólar</p>
+            <p>Actualización automática cada 30 segundos</p>
+        </footer>
+    </div>
+
+    <!-- Modal para control de usuario -->
+    <div id="user-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-cog"></i> Control de Usuario</h3>
+                <button id="close-modal" class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-user-info" class="user-info"></div>
+                <div class="modal-controls">
+                    <div class="control-group">
+                        <label>Estado:</label>
+                        <div class="toggle-buttons">
+                            <button id="toggle-status" class="btn btn-toggle">
+                                <i class="fas fa-play"></i> Activar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Notificaciones automáticas:</label>
+                        <div class="notification-info">
+                            <p>⏰ El bot verifica el dólar cada 15 minutos automáticamente</p>
+                            <p>📈 Solo recibirás notificaciones si cambió la cotización</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

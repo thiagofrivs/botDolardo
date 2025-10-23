@@ -1,0 +1,20 @@
+# Variables de entorno
+.env
+
+# Base de datos
+*.sqlite
+*.db
+
+# Logs
+logs.txt
+*.log
+
+# Archivos de respaldo
+data.json
+
+# Dependencias
+node_modules/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

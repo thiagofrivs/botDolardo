@@ -1,0 +1,28 @@
+{
+  "name": "dolar-bot-telegram",
+  "version": "1.0.0",
+  "description": "Bot de Telegram para consultar cotización del dólar con dashboard web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["telegram", "bot", "dolar", "cotizacion", "argentina"],
+  "author": "DolarBotardo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.64.0",
+    "sqlite3": "^5.1.6",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dolar-bot-telegram
+    env: node
+    plan: free
+    buildCommand: cd bot && npm install
+    startCommand: cd bot && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    # Las siguientes variables deben configurarse manualmente en Render:
+    # TELEGRAM_TOKEN
+    # API_SECRET_KEY
+    # API_BASE_URL (opcional)
+    # LOG_LEVEL (opcional)
+    # MAX_LOG_ENTRIES (opcional)
+    # CHECK_INTERVAL (opcional)
