@@ -41,7 +41,7 @@ if (!config.apiSecretKey) {
 }
 
 // Inicializar bot de Telegram
-const bot = new TelegramBot(config.telegramToken, { polling: true });
+const bot = new TelegramBot(config.telegramToken, { polling: false });
 
 // Inicializar Express
 const app = express();
@@ -719,6 +719,21 @@ app.get('/api/status', async (req, res) => {
 // Endpoint de salud
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Endpoint para webhook de Telegram
+app.post('/webhook', (req, res) => {
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+});
+
+// Endpoint para verificar webhook
+app.get('/webhook', (req, res) => {
+    res.json({ 
+        status: 'webhook endpoint ready', 
+        timestamp: new Date().toISOString(),
+        bot_status: 'active'
+    });
 });
 
 // Inicializar base de datos y comenzar verificación periódica
