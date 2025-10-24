@@ -1,7 +1,7 @@
 // Configuración del dashboard
 const CONFIG = {
     // URL del bot en producción (cambiar por tu URL de Render)
-    BOT_API_URL: 'https://botdolardo.onrender.com',
+    BOT_API_URL: 'botdolardo.thiagofrivs01.workers.dev',
     
     // Clave secreta para autenticación (debe coincidir con la del bot)
     API_SECRET_KEY: 'Altb1218.',
